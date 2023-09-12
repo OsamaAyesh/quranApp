@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 import 'package:quran1/screens/home_screen.dart';
@@ -15,14 +14,6 @@ class HiddenDrawer extends StatefulWidget {
 
 class _HiddenDrawerState extends State<HiddenDrawer> {
   List<ScreenHiddenDrawer> _page = [];
-  List<String> _pagesNumber=[
-    "الصفحة الرئيسية",
-    "اتجاه القبلة للصلاة ",
-    "فهرس الصفحات والسور ",
-    "القرآن الصوتي  ",
-    "مواقيت الصلاة ",
-    "الأذكار ",
-  ];
 
 
   @override
@@ -32,87 +23,87 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
       ScreenHiddenDrawer(
         ItemHiddenMenu(
             name: "الصفحة الرئيسية",
-            colorLineSelected: Color(0XFFF2EFE0),
+            colorLineSelected: const Color(0XFFF2EFE0),
             baseStyle: GoogleFonts.tajawal(
                 color: Colors.white,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold),
             selectedStyle: GoogleFonts.tajawal(
-                color: Color(0XFF4C230D),
+                color: const Color(0XFF4C230D),
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold)),
-        HomeScreen(),
+        const HomeScreen(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
             name: "اتجاه القبلة للصلاة ",
-            colorLineSelected: Color(0XFFF2EFE0),
+            colorLineSelected: const Color(0XFFF2EFE0),
             baseStyle: GoogleFonts.tajawal(
                 color: Colors.white,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold),
             selectedStyle: GoogleFonts.tajawal(
-                color: Color(0XFF4C230D),
+                color: const Color(0XFF4C230D),
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold)),
-        HomeScreen(),
+        const HomeScreen(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
             name: "فهرس الصفحات والسور ",
-            colorLineSelected: Color(0XFF4C230D),
+            colorLineSelected: const Color(0XFF4C230D),
             baseStyle: GoogleFonts.tajawal(
                 color: Colors.white,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold),
             selectedStyle: GoogleFonts.tajawal(
-                color: Color(0XFF4C230D),
+                color: const Color(0XFF4C230D),
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold)),
-        HomeScreen(),
+        const HomeScreen(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
             name: "القرآن الصوتي  ",
-            colorLineSelected: Color(0XFF4C230D),
+            colorLineSelected: const Color(0XFF4C230D),
             baseStyle: GoogleFonts.tajawal(
                 color: Colors.white,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold),
             selectedStyle: GoogleFonts.tajawal(
-                color: Color(0XFF4C230D),
+                color: const Color(0XFF4C230D),
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold)),
-        HomeScreen(),
+        const HomeScreen(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
             name: "مواقيت الصلاة ",
-            colorLineSelected: Color(0XFF4C230D),
+            colorLineSelected: const Color(0XFF4C230D),
             baseStyle: GoogleFonts.tajawal(
                 color: Colors.white,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold),
             selectedStyle: GoogleFonts.tajawal(
-                color: Color(0XFF4C230D),
+                color: const Color(0XFF4C230D),
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold)),
-        HomeScreen(),
+        const HomeScreen(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
             name: "الأذكار ",
-            colorLineSelected: Color(0XFF4C230D),
+            colorLineSelected: const Color(0XFF4C230D),
             selected: true,
             baseStyle: GoogleFonts.tajawal(
                 color: Colors.white,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold),
             selectedStyle: GoogleFonts.tajawal(
-                color: Color(0XFF4C230D),
+                color: const Color(0XFF4C230D),
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold)),
-        HomeScreen(),
+        const HomeScreen(),
       ),
     ];
 
@@ -126,8 +117,6 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
     setState(() {
       double height=MediaQuery.of(context).size.height;
       double width=MediaQuery.of(context).size.width;
-      print(height);
-      print(width);
     });
     return Directionality(
       textDirection: TextDirection.rtl,

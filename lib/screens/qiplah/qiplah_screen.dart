@@ -14,6 +14,7 @@ import 'error_location.dart';
 
 class QiblahCompass extends StatefulWidget {
   const QiblahCompass({super.key,this.drawerController});
+  // ignore: prefer_typing_uninitialized_variables
   final drawerController;
 
   @override
@@ -85,7 +86,7 @@ class _QiblahCompassState extends State<QiblahCompass> {
               stream: stream,
               builder: (context, AsyncSnapshot<LocationStatus> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(
                       color: Colors.brown,
                    ),
@@ -126,8 +127,9 @@ class _QiblahCompassState extends State<QiblahCompass> {
 
 class QiblahCompassWidget extends StatefulWidget {
 
-  QiblahCompassWidget({super.key,required this.drawerController
+  const QiblahCompassWidget({super.key,required this.drawerController
 });
+  // ignore: prefer_typing_uninitialized_variables
   final drawerController;
 
 
@@ -161,7 +163,7 @@ class _QiblahCompassWidgetState extends State<QiblahCompassWidget> {
         stream: FlutterQiblah.qiblahStream,
         builder: (_, AsyncSnapshot<QiblahDirection> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(
                 color: Colors.brown,
               ),

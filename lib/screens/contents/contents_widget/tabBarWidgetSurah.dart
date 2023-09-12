@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../api/controller/api_surah_controller.dart';
-import '../../../api/models/pages.dart';
+
 
 class TabBarWidgetSurah extends StatefulWidget {
   const TabBarWidgetSurah({super.key});
@@ -485,7 +484,6 @@ class _TabBarWidgetSurahState extends State<TabBarWidgetSurah> {
   @override
   void initState() {
     // TODO: implement initState
-    print("numberssss${englishSurahNames.length}");
     super.initState();
   }
 
@@ -619,7 +617,7 @@ class _TabBarWidgetSurahState extends State<TabBarWidgetSurah> {
                             ),
                             child: SizedBox(
                               height: 1.w,
-                              child: Divider(
+                              child: const Divider(
                                 color: Color(0XFFF5E2CE),
                                 thickness: 1.5,
                               ),

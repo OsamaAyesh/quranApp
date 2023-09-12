@@ -16,7 +16,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
   void initState() {
     // TODO: implement initState
     Future.delayed(const Duration(seconds: 4), () {
-      Get.offAll(() =>  MyHomePage());
+      Get.offAll(() =>  const MyHomePage());
     });
     super.initState();
   }

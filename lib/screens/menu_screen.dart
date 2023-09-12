@@ -217,22 +217,22 @@ class _MenuScreenState extends State<MenuScreen> {
 
 
       },
-      child: Container(
+      child: SizedBox(
         height: 47.h,
         width: MediaQuery.of(context).size.width*0.5,
         child: Row(
           children: [
-            Expanded(child: SizedBox()),
+            const Expanded(child: SizedBox()),
             AutoSizeText(
               text,
               style: GoogleFonts.tajawal(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: Color(0XFF4C230D),
+                color: const Color(0XFF4C230D),
               ),
             ),
             SizedBox(width: 10.w,),
-            Icon(icon,color: Color(0XFF4C230D),size: 24.w,),
+            Icon(icon,color: const Color(0XFF4C230D),size: 24.w,),
             SizedBox(width: 10.w,),
           ],
         ),

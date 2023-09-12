@@ -1,15 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quran1/screens/contents/contents_widget/tabBarWidgetSurah.dart';
 
-import 'contents_widget/tabBarWidgetPage.dart';
 
 class ContentScreen extends StatefulWidget {
   const ContentScreen({super.key, this.drawerController});
 
+  // ignore: prefer_typing_uninitialized_variables
   final drawerController;
 
   @override
@@ -48,7 +47,7 @@ class _ContentScreenState extends State<ContentScreen> with SingleTickerProvider
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(child: SizedBox()),
+                  const Expanded(child: SizedBox()),
                   SizedBox(
                     height: 34.h,
                     width: 318.w,
@@ -109,7 +108,7 @@ class _ContentScreenState extends State<ContentScreen> with SingleTickerProvider
                         width: 111.w,
                         fit: BoxFit.contain,
                       ),
-                      Expanded(child: SizedBox()),
+                      const Expanded(child: SizedBox()),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -189,8 +188,8 @@ class _ContentScreenState extends State<ContentScreen> with SingleTickerProvider
                       height: 36.h,
                       child: TabBar(
                         controller: tabController,
-                        indicatorColor: Color(0XFF4C230D),
-                        unselectedLabelColor: Color(0XFF4C230D),
+                        indicatorColor: const Color(0XFF4C230D),
+                        unselectedLabelColor: const Color(0XFF4C230D),
                         splashBorderRadius: BorderRadius.circular(20),
                         physics: const BouncingScrollPhysics(),
                         unselectedLabelStyle: GoogleFonts.poppins(

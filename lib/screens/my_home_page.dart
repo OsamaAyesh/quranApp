@@ -44,17 +44,17 @@ class _MyHomePageState extends State<MyHomePage> {
         mainScreen: currentScreen(),
         borderRadius: 24,
           showShadow: true,
-        shadowLayer1Color: Color(0XFF4C230D),
-        shadowLayer2Color: Color(0XFF9F8876),
-        drawerShadowsBackgroundColor: Color(0XFFF2EFE0),
-        menuBackgroundColor: Color(0XFFF2EFE0),
+        shadowLayer1Color: const Color(0XFF4C230D),
+        shadowLayer2Color: const Color(0XFF9F8876),
+        drawerShadowsBackgroundColor: const Color(0XFFF2EFE0),
+        menuBackgroundColor: const Color(0XFFF2EFE0),
         moveMenuScreen: true,
         slideWidth: MediaQuery.of(context).size.width*0.65,
         style: DrawerStyle.defaultStyle,
         isRtl: true,
         angle: 0,
-        duration: Duration(milliseconds: 500),
-        menuScreenOverlayColor: Color(0XFF9F8876),
+        duration: const Duration(milliseconds: 500),
+        menuScreenOverlayColor: const Color(0XFF9F8876),
       ),
     );
   }
@@ -67,9 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
       case 2:
         return ContentScreen(drawerController: drawerController,);
       case 3:
-        return AudioQuranScreen();
+        return const AudioQuranScreen();
       case 4:
-        return TimeSalah();
+        return const TimeSalah();
       default:
         return AzkarScreen(drawerController: drawerController,);
     }

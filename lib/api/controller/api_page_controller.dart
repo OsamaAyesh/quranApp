@@ -12,7 +12,6 @@ class PagesApiController {
         final dataJsonArray = jsonResponse["data"]["ayahs"] as List;
         var result = dataJsonArray.map((e) => Data.fromJson(e)).toList();
 
-        print(result);
         return result;
       } else {
         throw Exception('Failed to fetch Quran pages');

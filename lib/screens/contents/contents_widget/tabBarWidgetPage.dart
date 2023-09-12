@@ -1,11 +1,12 @@
-import 'package:auto_size_text/auto_size_text.dart';
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../api/controller/api_page_controller.dart';
-import '../../../api/models/pages.dart';
+
 
 class TabBarWidgetPage extends StatefulWidget {
   const TabBarWidgetPage({super.key});
@@ -25,6 +26,7 @@ class _TabBarWidgetPageState extends State<TabBarWidgetPage> {
   //   601, 602, 602, 603, 603, 604
   // ];
   // List<int> numbers=[];
+  // ignore: non_constant_identifier_names
   List<String> SurahPages = [
     "الفاتحة",//1
     "البقرة",//2
@@ -631,6 +633,7 @@ class _TabBarWidgetPageState extends State<TabBarWidgetPage> {
     "الكافرون",//603
     "الإخلاص",//604
   ];
+  // ignore: non_constant_identifier_names
   List<String> MaqiaOrMadania = [
     "mk",//1
     "md",//2
@@ -1241,7 +1244,6 @@ class _TabBarWidgetPageState extends State<TabBarWidgetPage> {
   @override
   void initState() {
     // TODO: implement initState
-    print(SurahPages.length);
     super.initState();
   }
 
@@ -1267,14 +1269,14 @@ class _TabBarWidgetPageState extends State<TabBarWidgetPage> {
                   child: Container(
                     height: 55.h,
                     decoration: BoxDecoration(
-                        color: Color(0XFF4C230D),
+                        color: const Color(0XFF4C230D),
                         borderRadius: BorderRadius.circular(10)),
                     child: Row(
                       children: [
                         SizedBox(width: 15.w,),
                         Center(
                           child: Image.asset(
-                            "${MaqiaOrMadania[index]=="md"?"assets/mosq.png":"assets/qaba.png"}",
+                            MaqiaOrMadania[index]=="md"?"assets/mosq.png":"assets/qaba.png",
                             height: 50.h,
                             width: 60.w,
                             fit: BoxFit.contain,
@@ -1282,7 +1284,7 @@ class _TabBarWidgetPageState extends State<TabBarWidgetPage> {
                         ),
                         const Expanded(child: SizedBox()),
                         AutoSizeText(
-                          "${SurahPages[index]}",
+                          SurahPages[index],
                           style: GoogleFonts.tajawal(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -1320,6 +1322,7 @@ class _TabBarWidgetPageState extends State<TabBarWidgetPage> {
                                   "assets/numberPageImage.svg",
                                   height: 36.h,
                                   width: 36.w,
+                                  // ignore: deprecated_member_use
                                   color: Colors.white,
                                 ),
                               ),

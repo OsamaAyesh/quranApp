@@ -9,6 +9,6 @@ class TimeSalah extends StatefulWidget {
 class _TimeSalahState extends State<TimeSalah> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }

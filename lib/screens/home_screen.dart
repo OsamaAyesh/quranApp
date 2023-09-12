@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    // ignore: non_constant_identifier_names
     List<String> SurahPages = [
       "الفاتحة", //1
       "البقرة", //2
@@ -629,33 +630,32 @@ class _HomeScreenState extends State<HomeScreen> {
       "الكافرون", //603
       "الإخلاص", //604
     ];
-    @override
-    void initState() {
-      // TODO: implement initState
-      print(SharedPrefController().getValue(PrefKeys.pageViewSaves.name));
-      super.initState();
-    }
+    setState(() {
+      if(pageIndex==0){
+        pageIndex=SharedPrefController().getValue(PrefKeys.pageViewSaves.name);
+      }
+    });
+    int pageBookMark = SharedPrefController().getValue(
+      PrefKeys.pageSaves.name,
+    );
+
 
     setState(() {
-      double height = MediaQuery.of(context).size.height;
-      double width = MediaQuery.of(context).size.width;
-      print(height);
-      print(width);
       pageIndex;
     });
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0XFF4C230D),
+        backgroundColor:const Color(0XFF4C230D),
         centerTitle: true,
         elevation: 0,
-        leading:SizedBox(
+        leading: SizedBox(
           height: 28.h,
           width: 28.w,
           child: Stack(
             children: [
               Center(
                 child: AutoSizeText(
-                  "${pageIndex + 1}",
+                  "$pageIndex",
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -668,12 +668,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   "assets/numberPageImage.svg",
                   height: 30.h,
                   width: 30.w,
+                  // ignore: deprecated_member_use
                   color: Colors.white,
                 ),
               ),
             ],
           ),
-        ) ,
+        ),
         title: AutoSizeText(
           SurahPages[pageIndex],
           style: GoogleFonts.tajawal(
@@ -688,51 +689,73 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             icon: Icon(
               Icons.menu_open_outlined,
-              color:  Colors.white,
+              color: Colors.white,
               size: 24.w,
             ),
           ),
-
         ],
       ),
       body: height > width
           ? SafeArea(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: PageView.builder(
-                      itemCount: 604,
-                      physics: const BouncingScrollPhysics(),
-                      onPageChanged: (value) {
-                        // value=SharedPrefController().getValue(PrefKeys.pageViewSaves.name);
-                        setState(() {
-                          SharedPrefController()
-                              .setValue(PrefKeys.pageViewSaves.name, value + 1);
-                          print(SharedPrefController()
-                              .getValue(PrefKeys.pageViewSaves.name));
-                          pageIndex = value;
-                        });
-                      },
-                      itemBuilder: (context, index) {
-                        return Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              // _showBottomSheet(context, index + 1);
-                              // widget.drawerController.toggle();
-                              print("Enter ");
-                            },
-                            child: Image.asset(
-                              "assets/quran/${index + 1}.png",
-                              height: double.infinity,
-                              width: double.infinity,
-                              fit: BoxFit.fill,
+              child: GestureDetector(
+                onTap: () {},
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: PageView.builder(
+                        itemCount: 604,
+                        physics: const BouncingScrollPhysics(),
+                        onPageChanged: (value) {
+                          // value=SharedPrefController().getValue(PrefKeys.pageViewSaves.name);
+                          setState(() {
+                            SharedPrefController().setValue(PrefKeys.pageViewSaves.name, value + 1);
+                            pageIndex = value + 1;
+                            pageBookMark = SharedPrefController().getValue(
+                              PrefKeys.pageSaves.name,
+                            );
+                          });
+                        },
+                        itemBuilder: (context, index) {
+                          return Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                _showBottomSheet(context, pageIndex + 1);
+                              },
+                              child: SizedBox(
+                                height: double.infinity,
+                                width: double.infinity,
+                                child: Stack(
+                                  children: [
+                                    Image.asset(
+                                      "assets/quran/${pageIndex!=0 ?index+1:pageIndex=SharedPrefController().getValue(PrefKeys.pageViewSaves.name)}.png",
+                                      height: double.infinity,
+                                      width: double.infinity,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    pageBookMark == pageIndex + 1
+                                        ? Opacity(
+                                            opacity: 0.5,
+                                            child: Image.asset(
+                                              "assets/bookmark.png",
+                                              height: 60.h,
+                                              width: 45.w,
+                                              fit: BoxFit.fill,
+                                            ),
+                                          )
+                                        : SizedBox(
+                                            height: 60.h,
+                                            width: 45.w,
+                                          ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           : SafeArea(
@@ -749,7 +772,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               _showBottomSheet(context, index + 1);
                               SharedPrefController().setValue(
                                   PrefKeys.pageViewSaves.name, index + 1);
-                              // print( "Number Page"+ SharedPrefController().getValue(PrefKeys.pageViewSaves.name));
                               pageIndex = index;
                             },
                             child: Column(children: [
@@ -790,7 +812,7 @@ void _showBottomSheet(BuildContext context, int numberPageIndex) {
               height: 305.h,
               width: double.infinity,
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     SizedBox(
@@ -800,54 +822,20 @@ void _showBottomSheet(BuildContext context, int numberPageIndex) {
                       height: 6.h,
                       width: 49.w,
                       decoration: BoxDecoration(
-                        color: Color(0XFF4C230D),
+                        color:const Color(0XFF4C230D),
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     SizedBox(
                       height: 15.h,
                     ),
-                    Stack(
-                      children: [
-                        Center(
-                          child: SvgPicture.asset(
-                            "assets/logo.svg",
-                            width: 104.w,
-                            height: 96.h,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 280.w),
-                          child: SizedBox(
-                            height: 36.h,
-                            width: 36.w,
-                            child: Stack(
-                              children: [
-                                Center(
-                                  child: SvgPicture.asset(
-                                    "assets/numberPageImage.svg",
-                                    height: 36.h,
-                                    width: 36.w,
-                                  ),
-                                ),
-                                Center(
-                                  child: AutoSizeText(
-                                    "$numberPageIndex",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                    ),
-                                    minFontSize: 1,
-                                    maxLines: 1,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                    Center(
+                      child: SvgPicture.asset(
+                        "assets/logo.svg",
+                        width: 104.w,
+                        height: 96.h,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     SizedBox(
                       height: 9.h,
@@ -873,12 +861,16 @@ void _showBottomSheet(BuildContext context, int numberPageIndex) {
                       height: 56.h,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0XFF4C230D),
+                            backgroundColor: const Color(0XFF4C230D),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.r),
                             ),
                             minimumSize: Size(311.w, 56.h)),
-                        onPressed: () {},
+                        onPressed: () {
+                          SharedPrefController().setValue(
+                              PrefKeys.pageSaves.name, numberPageIndex);
+                          Navigator.pop(context);
+                        },
                         child: Text(
                           "حفظ علامة ",
                           style: GoogleFonts.tajawal(

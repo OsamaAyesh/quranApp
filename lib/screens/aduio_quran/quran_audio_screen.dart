@@ -9,6 +9,6 @@ class AudioQuranScreen extends StatefulWidget {
 class _AudioQuranScreenState extends State<AudioQuranScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }
