@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:quran1/pref/shared_pref_controller.dart';
+import 'package:quran1/screens/home_screen.dart';
 import '../../screens/my_home_page.dart';
 
 class LaunchScreen extends StatefulWidget {
@@ -16,7 +18,9 @@ class _LaunchScreenState extends State<LaunchScreen> {
   void initState() {
     // TODO: implement initState
     Future.delayed(const Duration(seconds: 4), () {
-      Get.offAll(() =>  const MyHomePage());
+      // SharedPrefController().save(pageSaves: 1,pageViewSaves: 1,screenNumber: 1);
+      SharedPrefController().setValue(PrefKeys.pageSaveFromUser.name, 1);
+      Get.offAll(() => MyHomePage());
     });
     super.initState();
   }

@@ -18,8 +18,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final drawerController = ZoomDrawerController();
-  int currentIndex = 0;
+  // ignore: prefer_typing_uninitialized_variables
+  late final drawerController ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    drawerController= ZoomDrawerController();
+    super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+    int currentIndex = 0;
   // List<Widget> widgetsScreen=[
   //   HomeScreen(),
   //   QiblahCompass(),
@@ -30,9 +42,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    setState(() {
-      SharedPrefController().getValue(PrefKeys.screeNumber.name);
-    });
+    // setState(() {
+    //   SharedPrefController().getValue(PrefKeys.screeNumber.name);
+    // });
     return Scaffold(
       body: ZoomDrawer(
         controller: drawerController,

@@ -52,6 +52,7 @@ class LocationErrorWidget extends StatelessWidget {
               // Geolocator.requestPermission();
               // Geolocator.getLocationAccuracy();
               Geolocator.openLocationSettings();
+
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.brown,
@@ -66,7 +67,7 @@ class LocationErrorWidget extends StatelessWidget {
               style: GoogleFonts.tajawal(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black),
+                  color: Colors.white),
             ),
           ),
           // ElevatedButton(

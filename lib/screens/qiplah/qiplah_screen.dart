@@ -71,53 +71,59 @@ class _QiblahCompassState extends State<QiblahCompass> {
             style: GoogleFonts.tajawal(
               fontSize: 26,
               fontWeight: FontWeight.w500,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
-        ),
-        body: GestureDetector(
-          onTap: (){
-            widget.drawerController.toggle();
-          },
-          child: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(8.0),
-            child: StreamBuilder(
-              stream: stream,
-              builder: (context, AsyncSnapshot<LocationStatus> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.brown,
-                   ),
-                  );
-                }
-                if (snapshot.data!.enabled == true) {
-                  switch (snapshot.data!.status) {
-                    case LocationPermission.always:
-                    case LocationPermission.whileInUse:
-                      return QiblahCompassWidget(drawerController: widget.drawerController,);
-                    case LocationPermission.denied:
-                      return LocationErrorWidget(
-                        error: "Location service permission denied",
-                        callback: _checkLocationStatus,
-                      );
-                    case LocationPermission.deniedForever:
-                      return LocationErrorWidget(
-                        error: "Location service Denied Forever !",
-                        callback: _checkLocationStatus,
-                      );
-                    default:
-                      return Container();
-                  }
-                } else {
-                  return LocationErrorWidget(
-                    error: "Please enable Location service",
-                    callback: _checkLocationStatus,
-                  );
-                }
+          actions: [
+            IconButton(
+              onPressed: () {
+                widget.drawerController.toggle();
               },
+              icon: Icon(
+                Icons.menu_open_outlined,
+                color: Colors.white,
+              ),
             ),
+          ],
+        ),
+        body: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(8.0),
+          child: StreamBuilder(
+            stream: stream,
+            builder: (context, AsyncSnapshot<LocationStatus> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.brown,
+                 ),
+                );
+              }
+              if (snapshot.data!.enabled == true) {
+                switch (snapshot.data!.status) {
+                  case LocationPermission.always:
+                  case LocationPermission.whileInUse:
+                    return QiblahCompassWidget(drawerController: widget.drawerController,);
+                  case LocationPermission.denied:
+                    return LocationErrorWidget(
+                      error: "Location service permission denied",
+                      callback: _checkLocationStatus,
+                    );
+                  case LocationPermission.deniedForever:
+                    return LocationErrorWidget(
+                      error: "Location service Denied Forever !",
+                      callback: _checkLocationStatus,
+                    );
+                  default:
+                    return Container();
+                }
+              } else {
+                return LocationErrorWidget(
+                  error: "Please enable Location service",
+                  callback: _checkLocationStatus,
+                );
+              }
+            },
           ),
         ),
       ),

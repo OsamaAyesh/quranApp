@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum PrefKeys {pageSaves,pageViewSaves,screeNumber}
+enum PrefKeys {pageSaveFromUser,pageViewSaves,screeNumber}
 
 class SharedPrefController {
   late SharedPreferences _sharedPreferences;
@@ -29,8 +29,8 @@ class SharedPrefController {
     }
   }
 
-  Future<void> save({int pageSaves=1,int pageViewSaves=1,screenNumber=0}) async {
-    await _sharedPreferences.setInt(PrefKeys.pageSaves.name,pageSaves );
+  Future<void> save({int pageSaveFromUser=1,int pageViewSaves=1,screenNumber=0}) async {
+    await _sharedPreferences.setInt(PrefKeys.pageSaveFromUser.name,pageSaveFromUser );
     await _sharedPreferences.setInt(PrefKeys.pageViewSaves.name,pageViewSaves);
     await _sharedPreferences.setString(PrefKeys.screeNumber.name,screenNumber );
   }

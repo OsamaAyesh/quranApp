@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quran1/pref/shared_pref_controller.dart';
 import 'package:quran1/screens/contents/contents_widget/tabBarWidgetSurah.dart';
 
 
@@ -142,7 +143,7 @@ class _ContentScreenState extends State<ContentScreen> with SingleTickerProvider
                               Column(
                                 children: [
                                   AutoSizeText(
-                                    "سورة البقرة ",
+                                    "${SharedPrefController().getValue(PrefKeys.pageViewSaves.name)+1}",
                                     style: GoogleFonts.tajawal(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,

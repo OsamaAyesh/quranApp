@@ -2,8 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quran1/pref/shared_pref_controller.dart';
+
+import '../controller/savePageController.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, this.drawerController});
@@ -16,13 +20,46 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String surahName = "الفاتحة";
-  int pageIndex = 0;
+
+  //Save Page
+  //Oration
+  //Alignment Application
+  //الانتقال الي العلامة
+  //save pages
+  //دعاء ختم المصحف
+  // مشاركة
+  HomeController controller = Get.put(HomeController(), permanent: true);
+
+  late int pageIndex;
+  // late int pageBookMark;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    if(SharedPrefController().getValue(PrefKeys.pageViewSaves.name)>0){
+      _pageController = PageController(initialPage: SharedPrefController().getValue(PrefKeys.pageViewSaves.name)-1);
+      pageIndex=SharedPrefController().getValue(PrefKeys.pageViewSaves.name);
+      print(pageIndex);
+    }else{
+      _pageController = PageController(initialPage: 0);
+      pageIndex=0;
+      print(pageIndex);
+    }
+
+    super.initState();
+  }
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   _pageController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+
     // ignore: non_constant_identifier_names
     List<String> SurahPages = [
       "الفاتحة", //1
@@ -630,153 +667,143 @@ class _HomeScreenState extends State<HomeScreen> {
       "الكافرون", //603
       "الإخلاص", //604
     ];
-    setState(() {
-      if(pageIndex==0){
-        pageIndex=SharedPrefController().getValue(PrefKeys.pageViewSaves.name);
-      }
-    });
-    int pageBookMark = SharedPrefController().getValue(
-      PrefKeys.pageSaves.name,
-    );
 
-
-    setState(() {
-      pageIndex;
-    });
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor:const Color(0XFF4C230D),
-        centerTitle: true,
-        elevation: 0,
-        leading: SizedBox(
-          height: 28.h,
-          width: 28.w,
-          child: Stack(
-            children: [
-              Center(
-                child: AutoSizeText(
-                  "$pageIndex",
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+        appBar: AppBar(
+          backgroundColor: const Color(0XFF4C230D),
+          centerTitle: true,
+          elevation: 0,
+          leading: SizedBox(
+            height: 28.h,
+            width: 28.w,
+            child: Stack(
+              children: [
+                Center(
+                  child: AutoSizeText(
+                    "$pageIndex",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Center(
+                  child: SvgPicture.asset(
+                    "assets/numberPageImage.svg",
+                    height: 30.h,
+                    width: 30.w,
+                    // ignore: deprecated_member_use
                     color: Colors.white,
                   ),
                 ),
-              ),
-              Center(
-                child: SvgPicture.asset(
-                  "assets/numberPageImage.svg",
-                  height: 30.h,
-                  width: 30.w,
-                  // ignore: deprecated_member_use
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-        title: AutoSizeText(
-          SurahPages[pageIndex],
-          style: GoogleFonts.tajawal(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.white),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              widget.drawerController.toggle();
-            },
-            icon: Icon(
-              Icons.menu_open_outlined,
-              color: Colors.white,
-              size: 24.w,
+              ],
             ),
           ),
-        ],
-      ),
-      body: height > width
-          ? SafeArea(
-              child: GestureDetector(
-                onTap: () {},
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: PageView.builder(
-                        itemCount: 604,
-                        physics: const BouncingScrollPhysics(),
-                        onPageChanged: (value) {
-                          // value=SharedPrefController().getValue(PrefKeys.pageViewSaves.name);
-                          setState(() {
-                            SharedPrefController().setValue(PrefKeys.pageViewSaves.name, value + 1);
-                            pageIndex = value + 1;
-                            pageBookMark = SharedPrefController().getValue(
-                              PrefKeys.pageSaves.name,
-                            );
-                          });
-                        },
-                        itemBuilder: (context, index) {
-                          return Center(
-                            child: GestureDetector(
-                              onTap: () {
-                                _showBottomSheet(context, pageIndex + 1);
-                              },
-                              child: SizedBox(
-                                height: double.infinity,
-                                width: double.infinity,
-                                child: Stack(
-                                  children: [
-                                    Image.asset(
-                                      "assets/quran/${pageIndex!=0 ?index+1:pageIndex=SharedPrefController().getValue(PrefKeys.pageViewSaves.name)}.png",
-                                      height: double.infinity,
-                                      width: double.infinity,
-                                      fit: BoxFit.fill,
-                                    ),
-                                    pageBookMark == pageIndex + 1
-                                        ? Opacity(
-                                            opacity: 0.5,
-                                            child: Image.asset(
-                                              "assets/bookmark.png",
+          title: AutoSizeText(
+            SurahPages[pageIndex-1],
+            style: GoogleFonts.tajawal(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+                color: Colors.white),
+            maxFontSize: 16,
+            minFontSize: 1,
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                widget.drawerController.toggle();
+              },
+              icon:const Icon(
+                Icons.menu_open_outlined,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        body: OrientationBuilder(builder: (context, orientation) {
+          if (orientation == Orientation.portrait) {
+            return Column(
+              children: [
+                Expanded(
+                  child: PageView.builder(
+                    itemCount: 604,
+                    controller: _pageController,
+                    physics: const BouncingScrollPhysics(),
+                    onPageChanged: (value) {
+                      setState(() {
+                        pageIndex = value + 1;
+                        SharedPrefController().setValue(PrefKeys.pageViewSaves.name, pageIndex);
+                      });
+                    },
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            // _showBottomSheet(context, pageIndex + 1);
+                          },
+                          child: SizedBox(
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: Stack(
+                              children: [
+                                Image.asset(
+                                  "assets/quran/${index+1}.png",
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  fit: BoxFit.fill,
+                                ),
+                                GetBuilder<HomeController>(
+                                  builder: (controller) =>
+                                      pageIndex == SharedPrefController().getValue(PrefKeys.pageSaveFromUser.name)
+                                          ? Opacity(
+                                              opacity: 0.5,
+                                              child: Image.asset(
+                                                "assets/bookmark.png",
+                                                height: 60.h,
+                                                width: 45.w,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            )
+                                          : SizedBox(
                                               height: 60.h,
                                               width: 45.w,
-                                              fit: BoxFit.fill,
                                             ),
-                                          )
-                                        : SizedBox(
-                                            height: 60.h,
-                                            width: 45.w,
-                                          ),
-                                  ],
                                 ),
-                              ),
+                              ],
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            )
-          : SafeArea(
+              ],
+            );
+          } else {
+            return
+            SafeArea(
               child: Column(
                 children: [
                   Expanded(
                     child: ListView.builder(
                       itemCount: 604,
+                      controller: _pageController,
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, index) {
+                          print(_pageController.page);
+
                         return Center(
                           child: GestureDetector(
                             onTap: () {
-                              _showBottomSheet(context, index + 1);
-                              SharedPrefController().setValue(
-                                  PrefKeys.pageViewSaves.name, index + 1);
-                              pageIndex = index;
+                              // _showBottomSheet(context, index + 1);
+                              // SharedPrefController().setValue(
+                              //     PrefKeys.pageViewSaves.name, index + 1);
+                              // pageIndex = index;
                             },
                             child: Column(children: [
                               Image.asset(
-                                "assets/quran/${index + 1}.png",
+                                "assets/quran/${index+1}.png",
                                 width: 800.w,
                                 fit: BoxFit.fill,
                               ),
@@ -792,106 +819,110 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-            ),
-    );
+            );
+          }
+        }));
   }
-}
 
-void _showBottomSheet(BuildContext context, int numberPageIndex) {
-  showModalBottomSheet(
-    context: context,
-    shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(35), topRight: Radius.circular(35))),
-    builder: (BuildContext context) {
-      return SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 305.h,
-              width: double.infinity,
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    Container(
-                      height: 6.h,
-                      width: 49.w,
-                      decoration: BoxDecoration(
-                        color:const Color(0XFF4C230D),
-                        borderRadius: BorderRadius.circular(10),
+  void _showBottomSheet(BuildContext context, int numberPageIndex) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(35), topRight: Radius.circular(35))),
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 305.h,
+                width: double.infinity,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 15.h,
                       ),
-                    ),
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    Center(
-                      child: SvgPicture.asset(
-                        "assets/logo.svg",
-                        width: 104.w,
-                        height: 96.h,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 9.h,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: Text(
-                        "القرآنُ كالمطر، يروي قلوبنا وحياتنا، فلا تدعه يجفف فينا.",
-                        style: GoogleFonts.tajawal(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 26,
-                          color: Colors.black,
+                      Container(
+                        height: 6.h,
+                        width: 49.w,
+                        decoration: BoxDecoration(
+                          color: const Color(0XFF4C230D),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
                       ),
-                    ),
-                    SizedBox(
-                      height: 9.h,
-                    ),
-                    SizedBox(
-                      width: 311.w,
-                      height: 56.h,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0XFF4C230D),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            minimumSize: Size(311.w, 56.h)),
-                        onPressed: () {
-                          SharedPrefController().setValue(
-                              PrefKeys.pageSaves.name, numberPageIndex);
-                          Navigator.pop(context);
-                        },
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      Center(
+                        child: SvgPicture.asset(
+                          "assets/logo.svg",
+                          width: 104.w,
+                          height: 96.h,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 9.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: Text(
-                          "حفظ علامة ",
+                          "القرآنُ كالمطر، يروي قلوبنا وحياتنا، فلا تدعه يجفف فينا.",
                           style: GoogleFonts.tajawal(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 26,
+                            color: Colors.black,
                           ),
                           textAlign: TextAlign.center,
+                          maxLines: 2,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 27.h,
-                    )
-                  ],
+                      SizedBox(
+                        height: 9.h,
+                      ),
+                      SizedBox(
+                        width: 311.w,
+                        height: 56.h,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0XFF4C230D),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              minimumSize: Size(311.w, 56.h)),
+                          onPressed: () {
+                            SharedPrefController().setValue(
+                                PrefKeys.pageSaveFromUser.name,
+                                numberPageIndex - 1);
+                            controller.updateSavePage(SharedPrefController()
+                                .getValue(PrefKeys.pageSaveFromUser.name));
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "حفظ علامة ",
+                            style: GoogleFonts.tajawal(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 27.h,
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
-        ),
-      );
-    },
-  );
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
 }

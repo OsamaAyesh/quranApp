@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:quran1/pref/shared_pref_controller.dart';
@@ -9,6 +10,10 @@ void main () async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put<MyDrawerController>(MyDrawerController());
   await SharedPrefController().initPreferences();
+  SystemChrome.setPreferredOrientations([
+    // AnimatedContainer(duration: ).landscapeLeft,
+    // DeviceOrientation.landscapeLeft,
+  ]);
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
