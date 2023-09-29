@@ -1,69 +1,37 @@
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quran1/pref/shared_pref_controller.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
-
-import '../controller/savePageController.dart';
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, this.drawerController});
-
-  // ignore: prefer_typing_uninitialized_variables
-  final drawerController;
+import 'package:quran1/screens/contents/contents_widget/tabBarWidgetSurah.dart';class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  //Save Page
-  //Oration
-  //Alignment Application
-  //الانتقال الي العلامة
-  //save pages
-  //دعاء ختم المصحف
-  // مشاركة
-
-  HomeController controller = Get.put(HomeController(), permanent: true);
-
-  late int pageIndex;
-  late PageController _pageController;
-  late ScrollController scrollController;
-  late PageController _pageControllerListView;
-  late int counterSurah;
-  bool _showAppBar=false;
-
-
+class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin{
+  late TabController tabController;
+  late TextEditingController _textEditingController;
 
   @override
   void initState() {
     // TODO: implement initState
-    if (SharedPrefController().getValue(PrefKeys.pageViewSaves.name) > 0) {
-      _pageController = PageController(
-          initialPage:
-              SharedPrefController().getValue(PrefKeys.pageViewSaves.name) - 1);
-      pageIndex = SharedPrefController().getValue(PrefKeys.pageViewSaves.name);
-      _pageControllerListView= PageController(initialPage: SharedPrefController().getValue(PrefKeys.pageViewSaves.name) - 1);
-      counterSurah = SharedPrefController().getValue(PrefKeys.pageViewSaves.name);
-      print(pageIndex);
-    } else {
-      _pageController = PageController(initialPage: 0);
-      pageIndex = 1;
-      counterSurah = 0;
-      print(pageIndex);
-    }
-
+    tabController = TabController(length: 2, vsync: this);
+    _textEditingController = TextEditingController();
     super.initState();
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    tabController.dispose();
+    _textEditingController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
-    // ignore: non_constant_identifier_names
     List<String> SurahPages = [
       "الفاتحة", //1
       "البقرة", //2
@@ -670,306 +638,176 @@ class _HomeScreenState extends State<HomeScreen> {
       "الكافرون", //603
       "الإخلاص", //604
     ];
-    final controller1= AutoScrollController(
-      //add this for advanced viewport boundary. e.g. SafeArea
-        viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
-
-        //choose vertical/horizontal
-        axis: Axis.vertical,
-
-        //this given value will bring the scroll offset to the nearest position in fixed row height case.
-        //for variable row height case, you can still set the average height, it will try to get to the relatively closer offset
-        //and then start searching.
-        suggestedRowHeight: 200
-    );
-    print(controller1.scrollToIndex(1));
-
-
     return Scaffold(
-        appBar: _showAppBar ? AppBar(
-          backgroundColor: const Color(0XFF4C230D),
-          centerTitle: true,
-          elevation: 0,
-          leading: SizedBox(
-            height: 32.h,
-            width: 32.w,
-            child: Stack(
+
+      body: Column(
+        children: [
+          Container(
+            height: 102.h,
+            width: 318.w,
+            decoration: BoxDecoration(
+                color: const Color(0XFFF5E2CE),
+                borderRadius: BorderRadius.circular(20)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Center(
-                    child: AutoSizeText(
-                      "$pageIndex",
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                      maxFontSize: 14,
-                      minFontSize: 1,
-                      maxLines: 1,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      "assets/quran_content_screen.png",
+                      height: 100.h,
+                      width: 111.w,
+                      fit: BoxFit.contain,
                     ),
-                  ),
-                ),
-                Center(
-                  child: SvgPicture.asset(
-                    "assets/numberPageImage.svg",
-                    height: 32.h,
-                    width: 32.w,
-                    fit: BoxFit.fitWidth,
-                    // ignore: deprecated_member_use
-                    color: Colors.white,
-                  ),
-                ),
+                    const Expanded(child: SizedBox()),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        // Image.asset("assets/quran_small.png"),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Row(
+                          children: [
+                            AutoSizeText(
+                              "آخر سورة قرأتها",
+                              style: GoogleFonts.tajawal(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black),
+                            ),
+                            SizedBox(
+                              width: 11.h,
+                            ),
+                            Image.asset(
+                              "assets/logo.png",
+                              height: 30.h,
+                              width: 30.w,
+                              fit: BoxFit.contain,
+                            ),
+                            SizedBox(
+                              width: 11.h,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                AutoSizeText(
+                                  SurahPages[SharedPrefController().getValue(
+                                      PrefKeys.pageViewSaves.name) -
+                                      1],
+                                  style: GoogleFonts.tajawal(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                                AutoSizeText(
+                                  "رقم الصفحة  ${SharedPrefController().getValue(PrefKeys.pageViewSaves.name)}",
+                                  style: GoogleFonts.tajawal(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 70.w,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ],
+                )
               ],
             ),
           ),
-          title: AutoSizeText(
-            SurahPages[pageIndex == 0 ? 0 : pageIndex - 1],
-            style: GoogleFonts.tajawal(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-                color: Colors.white),
-            maxFontSize: 16,
-            minFontSize: 1,
+          SizedBox(
+            height: 17.h,
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                widget.drawerController.toggle();
-              },
-              icon: const Icon(
-                Icons.menu_open_outlined,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ) : null,
-        body: OrientationBuilder(builder: (context, orientation) {
-          if (orientation == Orientation.portrait) {
-            return SafeArea(
-              child: Column(
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 34.w),
+            child: SizedBox(
+              height: 36.h,
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: PageView.builder(
-                      itemCount: 604,
-                      controller: _pageController,
+                  Padding(
+                    padding: EdgeInsets.only(top: 35.h),
+                    child: const Divider(
+                      color: Color(0XFFF5E2CE),
+                      thickness: 2,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 36.h,
+                    child: TabBar(
+                      controller: tabController,
+                      indicatorColor: const Color(0XFF4C230D),
+                      unselectedLabelColor: const Color(0XFF4C230D),
+                      splashBorderRadius: BorderRadius.circular(20),
                       physics: const BouncingScrollPhysics(),
-                      onPageChanged: (value) {
-                        setState(() {
-                          pageIndex = value + 1;
-                          SharedPrefController()
-                              .setValue(PrefKeys.pageViewSaves.name, pageIndex);
-                          _pageControllerListView=PageController(initialPage: pageIndex);
-                        });
-                      },
-                      itemBuilder: (context, index) {
-                        return Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              // _showBottomSheet(context, pageIndex + 1);
-                              setState(() {
-                                _showAppBar=!_showAppBar;
-                                print(_pageController);
-
-                              });
-                            },
-                            child: SizedBox(
-                              height: double.infinity,
-                              width: double.infinity,
-                              child: Stack(
-                                children: [
-                                  Image.asset(
-                                    "assets/quran/${index + 1}.png",
-                                    height: double.infinity,
-                                    width: double.infinity,
-                                    fit: BoxFit.fill,
-                                  ),
-                                  GetBuilder<HomeController>(
-                                    builder: (controller) => pageIndex ==
-                                            SharedPrefController().getValue(
-                                                PrefKeys.pageSaveFromUser.name)
-                                        ? Opacity(
-                                            opacity: 0.5,
-                                            child: Image.asset(
-                                              "assets/bookmark.png",
-                                              height: 60.h,
-                                              width: 45.w,
-                                              fit: BoxFit.fill,
-                                            ),
-                                          )
-                                        : SizedBox(
-                                            height: 60.h,
-                                            width: 45.w,
-                                          ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return SafeArea(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: 604,
-                      controller: _pageController,
-                      physics: _showAppBar? NeverScrollableScrollPhysics():BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return AutoScrollTag(
-                            key: ValueKey(index),
-                            controller: controller1,
-                            index: index,
-                            child: Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    // print(_pageController.animateTo(2, duration: Duration(microseconds: 1000), curve: Curves.bounceIn));
-                                    pageIndex=index+1;
-                                    _showAppBar=!_showAppBar;
-                                    SharedPrefController().setValue(
-                                        PrefKeys.pageViewSaves.name, index + 1);
-                                  });
-                                  // _showBottomSheet(context, index + 1);
-
-                                  // pageIndex = index;
-                                },
-                                child: Column(
-                                  children: [
-                                    Image.asset(
-                                      "assets/quran/${index+1}.png",
-                                      width: 800.w,
-                                      fit: BoxFit.fill,
-                                    ),
-                                    const Divider(
-                                      thickness: 2,
-                                      color: Color(0XFF4C230D),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-        }));
-  }
-
-  void _showBottomSheet(BuildContext context, int numberPageIndex) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(35), topRight: Radius.circular(35))),
-      builder: (BuildContext context) {
-        return SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 305.h,
-                width: double.infinity,
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 15.h,
+                      unselectedLabelStyle: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
                       ),
-                      Container(
-                        height: 6.h,
-                        width: 49.w,
-                        decoration: BoxDecoration(
-                          color: const Color(0XFF4C230D),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      Center(
-                        child: SvgPicture.asset(
-                          "assets/logo.svg",
-                          width: 104.w,
-                          height: 96.h,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 9.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: Text(
-                          "القرآنُ كالمطر، يروي قلوبنا وحياتنا، فلا تدعه يجفف فينا.",
-                          style: GoogleFonts.tajawal(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 26,
-                            color: Colors.black,
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 9.h,
-                      ),
-                      SizedBox(
-                        width: 311.w,
-                        height: 56.h,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0XFF4C230D),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              minimumSize: Size(311.w, 56.h)),
-                          onPressed: () {
-                            SharedPrefController().setValue(
-                                PrefKeys.pageSaveFromUser.name,
-                                numberPageIndex - 1);
-                            controller.updateSavePage(SharedPrefController()
-                                .getValue(PrefKeys.pageSaveFromUser.name));
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "حفظ علامة ",
+                      labelColor: Colors.black,
+                      labelStyle: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: Colors.black),
+                      tabs: [
+                        Tab(
+                          child: AutoSizeText(
+                            "السور",
+                            minFontSize: 1,
                             style: GoogleFonts.tajawal(
                               fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: Colors.white,
+                              fontSize: 16,
                             ),
                             textAlign: TextAlign.center,
+                            maxLines: 1,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 27.h,
-                      )
-                    ],
+                        Tab(
+                          child: AutoSizeText(
+                            "الصفحات ",
+                            minFontSize: 1,
+                            style: GoogleFonts.tajawal(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                ],
+              ),
+            ),
           ),
-        );
-      },
+          Expanded(
+            child: TabBarView(
+              physics: const BouncingScrollPhysics(),
+              controller: tabController,
+              children: const [
+                TabBarWidgetSurah(),
+                TabBarWidgetSurah(),
+
+                // TabBarWidgetPage(),
+                // ... other TabBarView children
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-
-// items.contain()
-// items.startWidth()

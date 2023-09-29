@@ -1269,7 +1269,7 @@ class _TabBarWidgetPageState extends State<TabBarWidgetPage> {
                   child: Container(
                     height: 55.h,
                     decoration: BoxDecoration(
-                        color: const Color(0XFF4C230D),
+                        color: const Color(0XFFF2EFE0),
                         borderRadius: BorderRadius.circular(10)),
                     child: Row(
                       children: [
@@ -1288,7 +1288,7 @@ class _TabBarWidgetPageState extends State<TabBarWidgetPage> {
                           style: GoogleFonts.tajawal(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
-                              color: Colors.white),
+                              color: Colors.brown),
                           minFontSize: 1,
                           textAlign: TextAlign.start,
                           maxLines: 1,
@@ -1309,7 +1309,7 @@ class _TabBarWidgetPageState extends State<TabBarWidgetPage> {
                                     "${index+1}",
                                     style: GoogleFonts.poppins(
                                         fontSize: 14,
-                                        color: Colors.white,
+                                        color: Colors.brown,
                                         fontWeight:
                                         FontWeight.w500),
                                     minFontSize: 1,
@@ -1323,7 +1323,7 @@ class _TabBarWidgetPageState extends State<TabBarWidgetPage> {
                                   height: 36.h,
                                   width: 36.w,
                                   // ignore: deprecated_member_use
-                                  color: Colors.white,
+                                  color: Colors.brown,
                                 ),
                               ),
 

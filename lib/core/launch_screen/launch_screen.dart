@@ -18,8 +18,13 @@ class _LaunchScreenState extends State<LaunchScreen> {
   void initState() {
     // TODO: implement initState
     Future.delayed(const Duration(seconds: 4), () {
-      // SharedPrefController().save(pageSaves: 1,pageViewSaves: 1,screenNumber: 1);
-      SharedPrefController().setValue(PrefKeys.pageSaveFromUser.name, 1);
+      // SharedPrefController().setValue(PrefKeys.pageSaveFromUser.name, 1);
+      if(SharedPrefController().getValue(PrefKeys.pageViewSaves.name)==null){
+        SharedPrefController().setValue(PrefKeys.pageViewSaves.name, 2);
+      }
+      if(SharedPrefController().getValue(PrefKeys.pageSaveFromUser.name)==null){
+        SharedPrefController().setValue(PrefKeys.pageSaveFromUser.name, 2);
+      }
       Get.offAll(() => MyHomePage());
     });
     super.initState();
